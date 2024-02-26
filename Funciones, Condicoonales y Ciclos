@@ -1,0 +1,67 @@
+import kotlin.math.pow
+
+// Función para calcular el área de un rectángulo
+fun calcularAreaRectangulo(base: Double, altura: Double): Double {
+    return base * altura
+}
+
+// Función para calcular el volumen de un prisma rectangular utilizando la función de área
+fun calcularVolumenPrisma(base: Double, altura: Double, profundidad: Double): Double {
+    val areaBase = calcularAreaRectangulo(base, altura)
+    return areaBase * profundidad
+}
+
+// Función para calcular el promedio de tres calificaciones
+fun calcularPromedio(calif1: Double, calif2: Double, calif3: Double): Double {
+    return (calif1 + calif2 + calif3) / 3
+}
+
+// Función para identificar el tipo de triángulo
+fun identificarTriangulo(lado1: Double, lado2: Double, lado3: Double) {
+    if (lado1 == lado2 && lado2 == lado3) {
+        println("El triángulo es equilátero")
+    } else if (lado1 == lado2 || lado1 == lado3 || lado2 == lado3) {
+        println("El triángulo es isósceles")
+    } else {
+        println("El triángulo es escaleno")
+    }
+}
+
+// Función para contar la cantidad de veces que se repite un nombre en la lista
+fun contarRepeticiones(nombre: String, listaNombres: List<String>): Int {
+    var contador = 0
+    for (elemento in listaNombres) {
+        if (elemento == nombre) {
+            contador++
+        }
+    }
+    return contador
+}
+
+fun main() {
+    // Punto 1: Calculando el área de un rectángulo
+    val baseRectangulo = 5.0
+    val alturaRectangulo = 3.0
+    val areaRectangulo = calcularAreaRectangulo(baseRectangulo, alturaRectangulo)
+    println("El área del rectángulo es: $areaRectangulo")
+
+    // Punto 2: Calculando el volumen de un prisma rectangular
+    val profundidadPrisma = 4.0
+    val volumenPrisma = calcularVolumenPrisma(baseRectangulo, alturaRectangulo, profundidadPrisma)
+    println("El volumen del prisma rectangular es: $volumenPrisma")
+
+    // Punto 3: Calculando el promedio de tres calificaciones
+    val promedio = calcularPromedio(7.0, 8.5, 9.0)
+    println("El promedio de las calificaciones es: $promedio")
+
+    // Punto 4: Identificando el tipo de triángulo
+    identificarTriangulo(3.0, 3.0, 3.0) // Equilátero
+    identificarTriangulo(4.0, 4.0, 3.0) // Isósceles
+    identificarTriangulo(5.0, 4.0, 6.0) // Escaleno
+
+    // Punto 5: Contando la cantidad de veces que se repite un nombre en la lista
+    val nombres = listOf("Pedro Luis", "Juan Manuel", "Juan Luis", "María Inés", "Romeo", "Ernesto", "Juan Pedro", "Ariadna", "Mireya María", "Ana Sofía", "José Juan")
+    val nombreBuscar = "Juan"
+    val repeticiones = contarRepeticiones(nombreBuscar, nombres)
+    println("El nombre \"$nombreBuscar\" se repite $repeticiones veces.")
+}
