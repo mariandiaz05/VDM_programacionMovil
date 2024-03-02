@@ -1,0 +1,77 @@
+class Vehiculo(
+    var color: String,
+    var marca: String,
+    var modelo: String,
+    var placas: String,
+    var encendido: Boolean = false,
+    var gasolina: Double = 0.0
+) {
+    // Método para encender el vehículo
+    fun encender() {
+        if (!encendido) {
+            encendido = true
+            println("El vehículo ha sido encendido.")
+        } else {
+            println("El vehículo ya está encendido.")
+        }
+    }
+
+    // Método para apagar el vehículo
+    fun apagar() {
+        if (encendido) {
+            encendido = false
+            println("El vehículo ha sido apagado.")
+        } else {
+            println("El vehículo ya está apagado.")
+        }
+    }
+
+    // Método para recargar gasolina
+    fun recargar(litros: Double) {
+        if (litros > 0) {
+            gasolina += litros
+            println("Se han recargado $litros litros de gasolina. Nueva cantidad: $gasolina litros.")
+        } else {
+            println("No se puede recargar una cantidad no válida de gasolina.")
+        }
+    }
+}
+
+class Persona(
+    val nombre: String,
+    val apellidos: String,
+    val sexo: String,
+    val altura: Double
+)
+
+fun main() {
+    // Crear un objeto de Vehiculo y setear los datos
+    val miCoche = Vehiculo("Rojo", "Toyota", "Corolla", "ABC123", false, 50.0)
+
+    // Checar si el coche está encendido
+    println("El estado del coche es: ${if (miCoche.encendido) "Encendido" else "Apagado"}")
+
+    // Encender el coche
+    miCoche.encender()
+
+    // Checar el estado del coche después de encenderlo
+    println("El estado del coche es: ${if (miCoche.encendido) "Encendido" else "Apagado"}")
+
+    // Verificar el nivel del tanque de gasolina
+    println("Nivel de gasolina: ${miCoche.gasolina} litros")
+
+    // Recargar unos cuantos litros de gasolina
+    miCoche.recargar(10.0)
+
+    // Verificar el nivel del tanque después de recargar
+    println("Nivel de gasolina: ${miCoche.gasolina} litros")
+
+    // Crear un objeto de Persona
+    val persona = Persona("Juan", "Pérez", "Masculino", 1.75)
+
+    // Acceder a los datos de la persona
+    println("Nombre: ${persona.nombre}")
+    println("Apellidos: ${persona.apellidos}")
+    println("Sexo: ${persona.sexo}")
+    println("Altura: ${persona.altura} metros")
+}
