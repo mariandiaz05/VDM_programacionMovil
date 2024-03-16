@@ -1,0 +1,99 @@
+// Definición de la clase abstracta Travel para representar un viaje
+abstract class Travel(val country: String, val city: String, val pricePerDay: Int) {
+    // Método abstracto para obtener el precio total del viaje
+    abstract fun getPrice(): Int
+}
+
+// Interfaz Cancellable para representar la capacidad de cancelar un viaje
+interface Cancellable {
+    // Método abstracto para cancelar un viaje y devolver un mensaje
+    fun cancelTrip(): String
+}
+
+// Clase International para representar viajes internacionales
+class International(country: String, city: String, pricePerDay: Int) : Travel(country, city, pricePerDay) {
+    // Impuestos aplicables por país y ciudad
+    private val taxes = mapOf(
+        "Alemania" to 0.16,
+        "Chile" to 0.05,
+        "Canadá" to 0.10
+    )
+
+    // Precios por día por ciudad y país
+    private val cityPrices = mapOf(
+        "Alemania" to mapOf(
+            "Munich" to 980,
+            "Berlín" to 820,
+            "Francfort" to 850
+        ),
+        "Chile" to mapOf(
+            "Santiago" to 643,
+            "Valparaíso" to 721
+        ),
+        "Canadá" to mapOf(
+            "Vancouver" to 620,
+            "Ottawa" to 680,
+            "Montreal" to 600
+        )
+    )
+
+    // Método para calcular el precio total del viaje con impuestos incluidos
+    override fun getPrice(): Int {
+        val taxRate = taxes[country] ?: 0.0 // Si el país no tiene impuestos, se asume 0%
+        val cityPrice = cityPrices[country]?.get(city) ?: 0 // Si la ciudad no tiene precio, se asume 0
+        val totalPrice = cityPrice * 1.0 // Precio sin impuestos
+        val totalPriceWithTax = totalPrice * (1 + taxRate) // Precio con impuestos
+        return totalPriceWithTax.toInt()
+    }
+}
+
+// Clase NationalLowSeason para representar viajes nacionales en temporada baja
+class NationalLowSeason(country: String, city: String, pricePerDay: Int) : Travel(country, city, pricePerDay), Cancellable {
+    // Implementación del método abstracto getPrice para viajes nacionales en temporada baja
+    override fun getPrice(): Int {
+        return pricePerDay // El precio es igual al precio por día
+    }
+
+    // Implementación del método abstracto cancelTrip para cancelar un viaje nacional
+    override fun cancelTrip(): String {
+        return "Su viaje a $city, $country ha sido cancelado."
+    }
+}
+
+// Función principal del programa
+fun main() {
+    // Solicitar al usuario que ingrese el país y la ciudad del viaje
+    println("Ingrese el país:")
+    val country = readLine() ?: ""
+    println("Ingrese la ciudad:")
+    val city = readLine() ?: ""
+
+    // Verificar si el destino ingresado es válido para viajes internacionales
+    val validDestinations = setOf(
+        "Munich", "Berlín", "Francfort", // Alemania
+        "Santiago", "Valparaíso", // Chile
+        "Vancouver", "Ottawa", "Montreal" // Canadá
+    )
+
+    // Verificar si el destino ingresado es válido
+    if (country !in listOf("Alemania", "Chile", "Canadá") || city !in validDestinations) {
+        println("Lo siento, el país o la ciudad ingresada no están disponibles para viajes internacionales.")
+    } else {
+        // Calcular y mostrar el precio del viaje internacional
+        val internationalTrip = International(country, city, 0) // El precio por día no es relevante aquí
+        val totalPrice = internationalTrip.getPrice()
+        println("El precio del viaje a $city, $country es: $totalPrice")
+    }
+
+    // Preguntar al usuario si desea cancelar el viaje
+    println("¿Desea cancelar su viaje? (si/no)")
+    val decision = readLine()?.toLowerCase()
+    val nationalTrip = NationalLowSeason(country, city, 0)
+
+    // Manejar la decisión del usuario de cancelar o no el viaje
+    if (decision == "si") {
+        println(nationalTrip.cancelTrip()) // Cancelar el viaje y mostrar un mensaje
+    } else {
+        println("Gracias por su elección. ¡Que tenga un buen viaje!")
+    }
+}
